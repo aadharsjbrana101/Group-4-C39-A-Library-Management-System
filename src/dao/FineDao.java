@@ -1,131 +1,265 @@
 package dao;
 
 import Database.mysqlconnection;
-import Model.FineModel;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+import Model.Fine;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class FineDao {
+    private final mysqlconnection mysql = new mysqlconnection();
 
-    mysqlconnection mysql = new mysqlconnection();
+    public FineDao() {
+        try {
+            initTable();
+        } catch (SQLException e) {
+            System.err.println("Error initializing fines table: " + e.getMessage());
+        }
+    }
 
-    // Get all fines for a specific user
-    public List<FineModel> getFinesByUserId(int userId) {
-        List<FineModel> fines = new ArrayList<>();
-        Connection conn = mysql.openConnection();
-        String sql = "SELECT * FROM fines WHERE user_id = ?";
-        try (PreparedStatement pstm = conn.prepareStatement(sql)) {
-            pstm.setInt(1, userId);
-            ResultSet rs = pstm.executeQuery();
+    private void initTable() throws SQLException {
+        Connection conn = mysql.openconnection();
+        if (conn == null) {
+            return;
+        }
+
+        String createTableSQL = "CREATE TABLE IF NOT EXISTS fines (" +
+                "id INT AUTO_INCREMENT PRIMARY KEY," +
+                "borrow_id INT NOT NULL," +
+                "user_id INT NOT NULL," +
+                "amount DECIMAL(10,2) DEFAULT 0.0," +
+                "status VARCHAR(50) DEFAULT 'unpaid'," +
+                "payment_date DATE," +
+                "FOREIGN KEY (borrow_id) REFERENCES borrows(id) ON DELETE CASCADE," +
+                "FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE" +
+                ")";
+
+        try (Statement stmt = conn.createStatement()) {
+            stmt.executeUpdate(createTableSQL);
+        } finally {
+            mysql.closeconnection(conn);
+        }
+    }
+
+    // Calculate fines dynamically for all active, overdue borrows
+    public void calculateFines() throws SQLException {
+        Connection conn = mysql.openconnection();
+        if (conn == null) {
+            return;
+        }
+        
+        // Find all active borrows that are overdue
+        String query = "SELECT id, user_id, due_date FROM borrows WHERE status = 'borrowed' AND due_date < CURDATE()";
+        try (Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(query)) {
             while (rs.next()) {
-                FineModel fine = new FineModel();
-                fine.setFineId(rs.getInt("fine_id"));
-                fine.setUserId(rs.getInt("user_id"));
-                fine.setBookTitle(rs.getString("book_title"));
-                fine.setFineType(rs.getString("fine_type"));
-                fine.setAmount(rs.getDouble("amount"));
-                fine.setStatus(rs.getString("status"));
-                fine.setDueDate(rs.getString("due_date"));
-                fines.add(fine);
+                int borrowId = rs.getInt("id");
+                int userId = rs.getInt("user_id");
+                Date dueDate = rs.getDate("due_date");
+                
+                long timeDiff = System.currentTimeMillis() - dueDate.getTime();
+                long daysDiff = timeDiff / (1000 * 60 * 60 * 24);
+                if (daysDiff > 0) {
+                    double fineAmount = daysDiff * 10.0; // Rs. 10 per day
+                    
+                    // Check if fine record already exists
+                    String checkSQL = "SELECT id, amount, status FROM fines WHERE borrow_id = ?";
+                    try (PreparedStatement checkPs = conn.prepareStatement(checkSQL)) {
+                        checkPs.setInt(1, borrowId);
+                        try (ResultSet checkRs = checkPs.executeQuery()) {
+                            if (checkRs.next()) {
+                                int fineId = checkRs.getInt("id");
+                                String status = checkRs.getString("status");
+                                if ("unpaid".equalsIgnoreCase(status)) {
+                                    // Update amount if still unpaid
+                                    String updateSQL = "UPDATE fines SET amount = ? WHERE id = ?";
+                                    try (PreparedStatement updatePs = conn.prepareStatement(updateSQL)) {
+                                        updatePs.setDouble(1, fineAmount);
+                                        updatePs.setInt(2, fineId);
+                                        updatePs.executeUpdate();
+                                    }
+                                }
+                            } else {
+                                // Insert new unpaid fine
+                                String insertSQL = "INSERT INTO fines (borrow_id, user_id, amount, status) VALUES (?, ?, ?, 'unpaid')";
+                                try (PreparedStatement insertPs = conn.prepareStatement(insertSQL)) {
+                                    insertPs.setInt(1, borrowId);
+                                    insertPs.setInt(2, userId);
+                                    insertPs.setDouble(3, fineAmount);
+                                    insertPs.executeUpdate();
+                                }
+                            }
+                        }
+                    }
+                }
             }
-        } catch (Exception e) {
-            System.out.println(e);
         } finally {
-            mysql.closeConnection(conn);
+            mysql.closeconnection(conn);
         }
-        return fines;
     }
 
-    // Get total fine amount for a user
-    public double getTotalFines(int userId) {
-        double total = 0;
-        Connection conn = mysql.openConnection();
-        String sql = "SELECT SUM(amount) AS total FROM fines WHERE user_id = ?";
-        try (PreparedStatement pstm = conn.prepareStatement(sql)) {
-            pstm.setInt(1, userId);
-            ResultSet rs = pstm.executeQuery();
+    // Pay Fine
+    public boolean payFine(int fineId) throws SQLException {
+        Connection conn = mysql.openconnection();
+        if (conn == null) {
+            throw new SQLException("Database connection failed.");
+        }
+        String sql = "UPDATE fines SET status = 'paid', payment_date = CURDATE() WHERE id = ?";
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, fineId);
+            return ps.executeUpdate() > 0;
+        } finally {
+            mysql.closeconnection(conn);
+        }
+    }
+
+    // Get unpaid fines count for user
+    public int getUnpaidFinesCountForUser(int userId) throws SQLException {
+        Connection conn = mysql.openconnection();
+        if (conn == null) {
+            throw new SQLException("Database connection failed.");
+        }
+        String sql = "SELECT COUNT(*) FROM fines WHERE user_id = ? AND status = 'unpaid'";
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, userId);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt(1);
+                }
+            }
+        } finally {
+            mysql.closeconnection(conn);
+        }
+        return 0;
+    }
+
+    // Get unpaid fines sum for user
+    public double getUnpaidFinesSumForUser(int userId) throws SQLException {
+        Connection conn = mysql.openconnection();
+        if (conn == null) {
+            throw new SQLException("Database connection failed.");
+        }
+        String sql = "SELECT SUM(amount) FROM fines WHERE user_id = ? AND status = 'unpaid'";
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, userId);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getDouble(1);
+                }
+            }
+        } finally {
+            mysql.closeconnection(conn);
+        }
+        return 0.0;
+    }
+
+    // Get total fines paid for a user
+    public double getPaidFinesSumForUser(int userId) throws SQLException {
+        Connection conn = mysql.openconnection();
+        if (conn == null) {
+            throw new SQLException("Database connection failed.");
+        }
+        String sql = "SELECT SUM(amount) FROM fines WHERE user_id = ? AND status = 'paid'";
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, userId);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getDouble(1);
+                }
+            }
+        } finally {
+            mysql.closeconnection(conn);
+        }
+        return 0.0;
+    }
+
+    // Get total fines received (for Admin dashboard stats)
+    public double getTotalFinesReceived() throws SQLException {
+        Connection conn = mysql.openconnection();
+        if (conn == null) {
+            throw new SQLException("Database connection failed.");
+        }
+        String sql = "SELECT SUM(amount) FROM fines WHERE status = 'paid'";
+        try (Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
             if (rs.next()) {
-                total = rs.getDouble("total");
+                return rs.getDouble(1);
             }
-        } catch (Exception e) {
-            System.out.println(e);
         } finally {
-            mysql.closeConnection(conn);
+            mysql.closeconnection(conn);
         }
-        return total;
+        return 0.0;
     }
 
-    // Get total PENDING fine amount for a user
-    public double getPendingFines(int userId) {
-        double pending = 0;
-        Connection conn = mysql.openConnection();
-        String sql = "SELECT SUM(amount) AS pending FROM fines WHERE user_id = ? AND status = 'Pending'";
-        try (PreparedStatement pstm = conn.prepareStatement(sql)) {
-            pstm.setInt(1, userId);
-            ResultSet rs = pstm.executeQuery();
+    // Get total outstanding fines (for Admin dashboard stats)
+    public double getTotalOutstandingFines() throws SQLException {
+        Connection conn = mysql.openconnection();
+        if (conn == null) {
+            throw new SQLException("Database connection failed.");
+        }
+        String sql = "SELECT SUM(amount) FROM fines WHERE status = 'unpaid'";
+        try (Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
             if (rs.next()) {
-                pending = rs.getDouble("pending");
+                return rs.getDouble(1);
             }
-        } catch (Exception e) {
-            System.out.println(e);
         } finally {
-            mysql.closeConnection(conn);
+            mysql.closeconnection(conn);
         }
-        return pending;
+        return 0.0;
     }
 
-    // Get total PAID fine amount for a user
-    public double getPaidFines(int userId) {
-        double paid = 0;
-        Connection conn = mysql.openConnection();
-        String sql = "SELECT SUM(amount) AS paid FROM fines WHERE user_id = ? AND status = 'Paid'";
-        try (PreparedStatement pstm = conn.prepareStatement(sql)) {
-            pstm.setInt(1, userId);
-            ResultSet rs = pstm.executeQuery();
-            if (rs.next()) {
-                paid = rs.getDouble("paid");
+    // Get Fines for user
+    public List<Fine> getFinesForUser(int userId) throws SQLException {
+        List<Fine> list = new ArrayList<>();
+        Connection conn = mysql.openconnection();
+        if (conn == null) {
+            throw new SQLException("Database connection failed.");
+        }
+        String sql = "SELECT * FROM fines WHERE user_id = ? ORDER BY id DESC";
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, userId);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    list.add(new Fine(
+                        rs.getInt("id"),
+                        rs.getInt("borrow_id"),
+                        rs.getInt("user_id"),
+                        rs.getDouble("amount"),
+                        rs.getString("status"),
+                        rs.getDate("payment_date")
+                    ));
+                }
             }
-        } catch (Exception e) {
-            System.out.println(e);
         } finally {
-            mysql.closeConnection(conn);
+            mysql.closeconnection(conn);
         }
-        return paid;
+        return list;
     }
 
-    // Mark a fine as Paid
-    public void markFineAsPaid(int fineId) {
-        Connection conn = mysql.openConnection();
-        String sql = "UPDATE fines SET status = 'Paid' WHERE fine_id = ?";
-        try (PreparedStatement pstm = conn.prepareStatement(sql)) {
-            pstm.setInt(1, fineId);
-            pstm.executeUpdate();
-        } catch (Exception e) {
-            System.out.println(e);
-        } finally {
-            mysql.closeConnection(conn);
+    // Get All Transactions / Fines History (for Admin Payments)
+    public List<Fine> getAllFines() throws SQLException {
+        List<Fine> list = new ArrayList<>();
+        Connection conn = mysql.openconnection();
+        if (conn == null) {
+            throw new SQLException("Database connection failed.");
         }
-    }
-
-    // Insert a new fine record
-    public void createFine(FineModel fine) {
-        Connection conn = mysql.openConnection();
-        String sql = "INSERT INTO fines (user_id, book_title, fine_type, amount, status, due_date) VALUES (?,?,?,?,?,?)";
-        try (PreparedStatement pstm = conn.prepareStatement(sql)) {
-            pstm.setInt(1, fine.getUserId());
-            pstm.setString(2, fine.getBookTitle());
-            pstm.setString(3, fine.getFineType());
-            pstm.setDouble(4, fine.getAmount());
-            pstm.setString(5, fine.getStatus());
-            pstm.setString(6, fine.getDueDate());
-            pstm.executeUpdate();
-        } catch (Exception e) {
-            System.out.println(e);
+        String sql = "SELECT * FROM fines ORDER BY id DESC";
+        try (Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+            while (rs.next()) {
+                list.add(new Fine(
+                    rs.getInt("id"),
+                    rs.getInt("borrow_id"),
+                    rs.getInt("user_id"),
+                    rs.getDouble("amount"),
+                    rs.getString("status"),
+                    rs.getDate("payment_date")
+                ));
+            }
         } finally {
-            mysql.closeConnection(conn);
+            mysql.closeconnection(conn);
         }
+        return list;
     }
 }
