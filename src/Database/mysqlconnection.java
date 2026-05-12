@@ -16,21 +16,33 @@ public class mysqlconnection implements Db{
 
     @Override
     public Connection openConnection() {
-               try{
+        try {
             String username = "root";
             String password = "1234@";
             String database = "lms";
-            Connection conn;
-            conn = DriverManager.getConnection(
-            "localhost:3306" + database,username,password
+            
+            // Ensure the JDBC driver is loaded
+            try {
+                Class.forName("com.mysql.cj.jdbc.Driver");
+            } catch (ClassNotFoundException e) {
+                try {
+                    Class.forName("com.mysql.jdbc.Driver");
+                } catch (ClassNotFoundException ex) {
+                    System.out.println("MySQL Driver not found in classpath.");
+                }
+            }
+
+            Connection conn = DriverManager.getConnection(
+                "jdbc:mysql://localhost:3306/" + database, username, password
             );
-            if(conn != null){
-                System.out.print("Connection successfull");
-            }else{
-                System.out.print("Connetion not successfull");
-            }return conn;
-        }catch (SQLException e){
-            System.out.print(e);
+            if (conn != null) {
+                System.out.println("Connection successful!");
+            } else {
+                System.out.println("Connection not successful.");
+            }
+            return conn;
+        } catch (SQLException e) {
+            System.out.println("Database Connection Failed: " + e.getMessage());
             return null;
         }
     }
@@ -38,25 +50,44 @@ public class mysqlconnection implements Db{
 
     @Override
     public void closeConnection(Connection conn) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        try {
+            if (conn != null && !conn.isClosed()) {
+                conn.close();
+                System.out.println("Connection closed successfully.");
+            }
+        } catch (SQLException e) {
+            System.out.println("Error closing connection: " + e.getMessage());
+        }
     }
 
     @Override
     public ResultSet runQuery(Connection conn, String query) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        try {
+            Statement stmt = conn.createStatement();
+            return stmt.executeQuery(query);
+        } catch (SQLException e) {
+            System.out.println("Error running query: " + e.getMessage());
+            return null;
+        }
     }
 
     @Override
     public int executeUpdate(Connection conn, String query) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        try {
+            Statement stmt = conn.createStatement();
+            return stmt.executeUpdate(query);
+        } catch (SQLException e) {
+            System.out.println("Error executing update: " + e.getMessage());
+            return -1;
+        }
     }
 
     public Connection openconnection() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return openConnection();
     }
 
     public void closeconnection(Connection conn) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        closeConnection(conn);
     }
 
 }
