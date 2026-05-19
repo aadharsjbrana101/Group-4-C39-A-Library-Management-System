@@ -1,6 +1,7 @@
 package Model;
 
 public class Book {
+    // Sprint 2: Book search properties
     private int id;
     private String title;
     private String author;
