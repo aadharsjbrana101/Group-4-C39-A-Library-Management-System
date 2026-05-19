@@ -3,6 +3,7 @@ package Model;
 import java.sql.Date;
 
 public class Borrow {
+    // Sprint 2: Borrow return status and states
     private int id;
     private int userId;
     private int bookId;
