@@ -98,7 +98,7 @@ public class FineDao {
         }
     }
 
-    // Pay Fine
+    // Sprint 2: Fine status updates and transactions
     public boolean payFine(int fineId) throws SQLException {
         Connection conn = mysql.openconnection();
         if (conn == null) {
