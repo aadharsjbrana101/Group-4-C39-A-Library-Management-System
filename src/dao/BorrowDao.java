@@ -115,7 +115,7 @@ public class BorrowDao {
         }
     }
 
-    // Return Book (Updates borrow record, increments book quantity, triggers fine if overdue)
+    // Sprint 2: Return updates and query functions
     public boolean returnBook(int borrowId) throws SQLException {
         Connection conn = mysql.openconnection();
         if (conn == null) {
