@@ -76,7 +76,7 @@ public class UserDao {
         }
     }
 
-    // Authenticate and return userdata
+    // Sprint 2: Login validation query methods
     public userdata authenticate(String usernameOrEmail, String password) throws SQLException {
         Connection conn = mysql.openconnection();
         if (conn == null) {
