@@ -19,10 +19,10 @@ public class mysqlconnection implements Db{
                try{
             String username = "root";
             String password = "1234@";
-            String database = "helloc";
+            String database = "lms";
             Connection conn;
             conn = DriverManager.getConnection(
-            "jdbc:mysql://localhost:3306/" + database,username,password
+            "localhost:3306" + database,username,password
             );
             if(conn != null){
                 System.out.print("Connection successfull");

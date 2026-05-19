@@ -8,6 +8,6 @@ package Model;
  *
  * @author aadha
  */
-public class NewClass {
+public class userdata {
     
 }

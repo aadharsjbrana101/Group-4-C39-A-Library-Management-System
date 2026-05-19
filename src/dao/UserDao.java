@@ -8,6 +8,8 @@ package dao;
  *
  * @author aadha
  */
-public class NewClass {
+public class UserDao {
+    mysqlconnection mysql = new mysqlconnection();
+    public void createuser()
     
 }
