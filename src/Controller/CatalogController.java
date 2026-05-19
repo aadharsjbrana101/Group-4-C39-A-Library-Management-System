@@ -13,6 +13,7 @@ import java.sql.SQLException;
 import java.util.List;
 import javax.swing.JOptionPane;
 
+// Sprint 2: Bind search action listeners
 public class CatalogController {
     private final CatalogView view;
     private final BookDao bookDao;
