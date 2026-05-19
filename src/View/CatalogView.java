@@ -10,6 +10,7 @@ import javax.swing.border.EmptyBorder;
 
 public class CatalogView extends javax.swing.JFrame {
 
+    // Sprint 2: Search book query input
     public CatalogView() {
         initComponents();
         setupDesign();
