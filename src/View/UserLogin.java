@@ -20,7 +20,12 @@ public class UserLogin extends javax.swing.JFrame {
     public UserLogin() {
         initComponents();
         
-        jPanel2.setBackground(new Color(40,20,10,170));
+        // Maximize window
+        setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH);
+        
+        jPanel2.setBackground(new Color(40, 20, 10));
+        jPanel2.setAlpha(170);
+        jPasswordField1.setText("");
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -37,10 +42,10 @@ public class UserLogin extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         jTextField1 = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
-        jLabel6 = new javax.swing.JLabel();
         jPasswordField1 = new javax.swing.JPasswordField();
-        jPanel2 = new javax.swing.JPanel();
+        jPanel2 = new View.TranslucentPanel();
         jLabel7 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
 
@@ -82,16 +87,16 @@ public class UserLogin extends javax.swing.JFrame {
         getContentPane().add(jButton1);
         jButton1.setBounds(600, 400, 90, 30);
 
+        jButton3.setForeground(new java.awt.Color(255, 255, 255));
+        jButton3.setText("Forgot Password?");
+        jButton3.setContentAreaFilled(false);
+        getContentPane().add(jButton3);
+        jButton3.setBounds(580, 490, 160, 23);
+
         jButton2.setFont(new java.awt.Font("Cambria Math", 0, 18)); // NOI18N
         jButton2.setText("SignUp");
         getContentPane().add(jButton2);
         jButton2.setBounds(600, 440, 90, 29);
-
-        jLabel6.setFont(new java.awt.Font("Cambria Math", 0, 18)); // NOI18N
-        jLabel6.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel6.setText("Forgot Password?");
-        getContentPane().add(jLabel6);
-        jLabel6.setBounds(570, 490, 150, 30);
 
         jPasswordField1.setText("jPasswordField1");
         getContentPane().add(jPasswordField1);
@@ -122,7 +127,25 @@ public class UserLogin extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed
+public javax.swing.JTextField getUsernameField() {
+        return jTextField1;
+    }
 
+    public javax.swing.JPasswordField getPasswordField() {
+        return jPasswordField1;
+    }
+
+    public void addLoginListener(java.awt.event.ActionListener listener) {
+        jButton1.addActionListener(listener);
+    }
+
+    public void addSignUpListener(java.awt.event.ActionListener listener) {
+        jButton2.addActionListener(listener);
+    }
+
+    public void addForgotPasswordListener(java.awt.event.ActionListener listener) {
+        jButton3.addActionListener(listener);
+    }
     /**
      * @param args the command line arguments
      */
@@ -151,15 +174,16 @@ public class UserLogin extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JPanel jPanel2;
+    private View.TranslucentPanel jPanel2;
     private javax.swing.JPasswordField jPasswordField1;
     private javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables
+
 }
