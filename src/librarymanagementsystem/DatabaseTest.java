@@ -11,6 +11,7 @@ public class DatabaseTest {
     public static void main(String[] args) {
         // Sprint 2 (Ronish): Define testing suite structure
         // Sprint 2 (Ronish): Construct validation helper tests
+        // Sprint 2 (Ronish): Document unit test behaviors
         mysqlconnection mysql = new mysqlconnection();
         Connection conn = mysql.openconnection();
         if (conn == null) {
