@@ -17,12 +17,12 @@ public class mysqlconnection implements Db{
     @Override
     public Connection openConnection() {
                try{
-            String username = "root";
-            String password = "1234@";
-            String database = "helloc";
+            String username = "rashmi";
+            String password = "1234";
+            String database = "lms";
             Connection conn;
             conn = DriverManager.getConnection(
-            "jdbc:mysql://localhost:3306/" + database,username,password
+            "127.0.0.1:3306" + database,username,password
             );
             if(conn != null){
                 System.out.print("Connection successfull");
