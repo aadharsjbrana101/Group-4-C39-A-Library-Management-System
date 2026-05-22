@@ -8,6 +8,6 @@ package dao;
  *
  * @author aadha
  */
-public class NewClass {
+public class bookcatalogDAO {
     
 }

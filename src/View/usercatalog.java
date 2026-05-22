@@ -34,6 +34,8 @@ public class usercatalog extends javax.swing.JPanel {
         jButton4 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
+        jPanel1 = new javax.swing.JPanel();
+        jPanel2 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
 
         setPreferredSize(new java.awt.Dimension(1700, 700));
@@ -95,6 +97,10 @@ public class usercatalog extends javax.swing.JPanel {
         jLabel1.setText("jLabel1");
         add(jLabel1);
         jLabel1.setBounds(0, 0, 200, 700);
+        add(jPanel1);
+        jPanel1.setBounds(230, 130, 140, 110);
+        add(jPanel2);
+        jPanel2.setBounds(240, 300, 130, 120);
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Untitled design.png"))); // NOI18N
         add(jLabel2);
@@ -132,5 +138,7 @@ public class usercatalog extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     // End of variables declaration//GEN-END:variables
 }
