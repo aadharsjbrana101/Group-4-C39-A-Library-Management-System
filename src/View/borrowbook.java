@@ -4,6 +4,9 @@
  */
 package View;
 
+import java.awt.Color;
+
+
 /**
  *
  * @author asus
@@ -13,9 +16,11 @@ public class borrowbook extends javax.swing.JPanel {
     /**
      * Creates new form borrowbook
      */
-    public borrowbook() {
-        initComponents();
-    }
+public borrowbook() {
+
+    initComponents();
+    jTextField1.setBackground(new Color(40,20,10,170));
+}
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -26,11 +31,18 @@ public class borrowbook extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jSeparator2 = new javax.swing.JSeparator();
+        jSeparator4 = new javax.swing.JSeparator();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         jTextField1 = new javax.swing.JTextField();
         jButton6 = new javax.swing.JButton();
@@ -51,6 +63,7 @@ public class borrowbook extends javax.swing.JPanel {
         jButton1.setText("Dashboard");
         jButton1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
         jButton1.setContentAreaFilled(false);
+        jButton1.addActionListener(this::jButton1ActionPerformed);
         add(jButton1);
         jButton1.setBounds(0, 0, 190, 110);
 
@@ -88,6 +101,31 @@ public class borrowbook extends javax.swing.JPanel {
         add(jButton5);
         jButton5.setBounds(0, 440, 190, 110);
 
+        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/HOME-1.png"))); // NOI18N
+        jLabel4.setText("jLabel4");
+        add(jLabel4);
+        jLabel4.setBounds(0, 30, 40, 40);
+
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/LOGOUT-1.png"))); // NOI18N
+        jLabel2.setText("jLabel2");
+        add(jLabel2);
+        jLabel2.setBounds(0, 470, 60, 40);
+
+        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/PAYMENTS-1.png"))); // NOI18N
+        jLabel5.setText("jLabel5");
+        add(jLabel5);
+        jLabel5.setBounds(0, 360, 50, 40);
+
+        jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/BOOKS-100.png"))); // NOI18N
+        jLabel6.setText("jLabel6");
+        add(jLabel6);
+        jLabel6.setBounds(0, 250, 50, 38);
+
+        jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/caTALOG-1.png"))); // NOI18N
+        jLabel7.setText("jLabel7");
+        add(jLabel7);
+        jLabel7.setBounds(0, 140, 40, 50);
+
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/background image of lms-2---new.png"))); // NOI18N
         jLabel1.setText("jLabel1");
         jLabel1.setPreferredSize(new java.awt.Dimension(1200, 700));
@@ -103,22 +141,25 @@ public class borrowbook extends javax.swing.JPanel {
 
         jButton6.setFont(new java.awt.Font("Cambria Math", 3, 17)); // NOI18N
         jButton6.setText("Borrowed");
-        jButton6.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(215, 215, 20), 2, true));
+        jButton6.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(197, 197, 27), 3, true));
         jButton6.setOpaque(true);
+        jButton6.addActionListener(this::jButton6ActionPerformed);
         add(jButton6);
         jButton6.setBounds(220, 180, 230, 80);
 
         jButton7.setFont(new java.awt.Font("Cambria Math", 3, 17)); // NOI18N
         jButton7.setText("Returned");
-        jButton7.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(214, 214, 21), 2, true));
+        jButton7.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(196, 196, 27), 3, true));
         add(jButton7);
         jButton7.setBounds(480, 180, 230, 80);
 
         jButton8.setFont(new java.awt.Font("Cambria Math", 3, 17)); // NOI18N
         jButton8.setText("History");
-        jButton8.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(214, 214, 21), 2, true));
+        jButton8.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(196, 196, 25), 3, true));
         add(jButton8);
         jButton8.setBounds(730, 180, 230, 80);
+
+        jScrollPane1.setViewportBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -131,6 +172,11 @@ public class borrowbook extends javax.swing.JPanel {
                 "Book Tittle", "Author", "Borrowed On", "Due Date", "Status"
             }
         ));
+        jTable1.setGridColor(new java.awt.Color(0, 0, 0));
+        jTable1.setRowHeight(68);
+        jTable1.setShowGrid(false);
+        jTable1.setShowHorizontalLines(true);
+        jTable1.setShowVerticalLines(true);
         jScrollPane1.setViewportView(jTable1);
 
         add(jScrollPane1);
@@ -151,6 +197,14 @@ public class borrowbook extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton5ActionPerformed
 
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton6ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton1ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
@@ -162,8 +216,15 @@ public class borrowbook extends javax.swing.JPanel {
     private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JSeparator jSeparator2;
+    private javax.swing.JSeparator jSeparator4;
     private javax.swing.JTable jTable1;
     private javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables
