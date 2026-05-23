@@ -4,9 +4,6 @@
  */
 package View;
 
-import java.awt.Color;
-
-
 /**
  *
  * @author asus
@@ -19,7 +16,6 @@ public class borrowbook extends javax.swing.JPanel {
 public borrowbook() {
 
     initComponents();
-    jTextField1.setBackground(new Color(40,20,10,170));
 }
 
     /**
@@ -44,12 +40,12 @@ public borrowbook() {
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
         jButton6 = new javax.swing.JButton();
         jButton7 = new javax.swing.JButton();
         jButton8 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
+        jLabel8 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(204, 204, 204));
@@ -132,13 +128,6 @@ public borrowbook() {
         add(jLabel1);
         jLabel1.setBounds(0, 0, 190, 700);
 
-        jTextField1.setBackground(new java.awt.Color(0, 0, 0));
-        jTextField1.setFont(new java.awt.Font("Cambria Math", 3, 18)); // NOI18N
-        jTextField1.setForeground(new java.awt.Color(255, 255, 255));
-        jTextField1.setText("My Books");
-        add(jTextField1);
-        jTextField1.setBounds(270, 40, 160, 70);
-
         jButton6.setFont(new java.awt.Font("Cambria Math", 3, 17)); // NOI18N
         jButton6.setText("Borrowed");
         jButton6.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(197, 197, 27), 3, true));
@@ -182,6 +171,13 @@ public borrowbook() {
         add(jScrollPane1);
         jScrollPane1.setBounds(220, 320, 950, 300);
 
+        jLabel8.setBackground(new java.awt.Color(0, 0, 0));
+        jLabel8.setFont(new java.awt.Font("Cambria Math", 3, 24)); // NOI18N
+        jLabel8.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel8.setText("My Books");
+        add(jLabel8);
+        jLabel8.setBounds(270, 50, 120, 60);
+
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/backgroud photo of library management system-new.png"))); // NOI18N
         jLabel3.setText("jLabel3");
         jLabel3.setPreferredSize(new java.awt.Dimension(1200, 700));
@@ -222,10 +218,10 @@ public borrowbook() {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator4;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables
 }
