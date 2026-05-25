@@ -22,7 +22,7 @@ public class mysqlconnection implements Db{
             String database = "lms";
             Connection conn;
             conn = DriverManager.getConnection(
-            "localhost:3306/" + database,username,password
+            "jdbc:mysql://localhost:3306/" + database,username,password
             );
             if(conn != null){
                 System.out.print("Connection successfull");
