@@ -161,6 +161,11 @@ public class UserPayments extends javax.swing.JFrame {
         jButton1.setText("Dashboard");
         jButton1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 3));
         jButton1.setContentAreaFilled(false);
+        jButton1.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jButton1FocusGained(evt);
+            }
+        });
         jButton1.addActionListener(this::jButton1ActionPerformed);
         getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 160, 70));
 
@@ -209,16 +214,13 @@ public class UserPayments extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
- int confirm = javax.swing.JOptionPane.showConfirmDialog(
-        this,
-        "Are you sure you want to logout?",
-        "Logout",
-        javax.swing.JOptionPane.YES_NO_OPTION
-    );
-    if (confirm == javax.swing.JOptionPane.YES_OPTION) {
-        System.exit(0);
+ 
     }        // TODO add your handling code here:
     }//GEN-LAST:event_jButton6ActionPerformed
+
+    private void jButton1FocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jButton1FocusGained
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton1FocusGained
 
     /**
      * @param args the command line arguments
