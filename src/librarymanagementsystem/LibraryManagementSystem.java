@@ -10,11 +10,21 @@ package librarymanagementsystem;
  */
 public class LibraryManagementSystem {
 
-    /**
-     * @param args the command line arguments
-     */
     public static void main(String[] args) {
-        // TODO code application logic here
+        // Set beautiful Swing Look and Feel
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (Exception ex) {
+            java.util.logging.Logger.getLogger(LibraryManagementSystem.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+
+        // Launch the gorgeous glassmorphic AuthFrame
+        java.awt.EventQueue.invokeLater(() -> new View.AuthFrame().setVisible(true));
     }
     
 }

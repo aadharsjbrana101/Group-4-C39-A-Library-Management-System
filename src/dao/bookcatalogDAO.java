@@ -169,4 +169,150 @@ public class bookcatalogDAO {
         book.setFuture(rs.getBoolean("is_future"));
         return book;
     }
+
+    /**
+     * Authenticates a user.
+     * Returns the user ID if successful, -999 for programmatically authenticated admin, and -1 if failed.
+     */
+    public int authenticateUser(String username, String password) {
+        if ("admin".equalsIgnoreCase(username) && "admin".equals(password)) {
+            return -999; // Special Admin ID
+        }
+        String sql = "SELECT id FROM users WHERE username = ? AND password = ?";
+        try (Connection conn = dbConnection.openConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, username);
+            stmt.setString(2, password);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt("id");
+                }
+            }
+        } catch (SQLException e) {
+            logger.log(Level.SEVERE, "Error authenticating user", e);
+        }
+        return -1; // Authentication failed
+    }
+
+    /**
+     * Registers a new user.
+     * Returns true if registration succeeded, false if user already exists or error.
+     */
+    public boolean registerUser(String username, String password, String email) {
+        // First check if user exists
+        String checkSql = "SELECT COUNT(*) FROM users WHERE username = ?";
+        try (Connection conn = dbConnection.openConnection();
+             PreparedStatement stmt = conn.prepareStatement(checkSql)) {
+            stmt.setString(1, username);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next() && rs.getInt(1) > 0) {
+                    return false; // User already exists
+                }
+            }
+        } catch (SQLException e) {
+            logger.log(Level.SEVERE, "Error checking user existence", e);
+            return false;
+        }
+
+        String sql = "INSERT INTO users (username, password, email) VALUES (?, ?, ?)";
+        try (Connection conn = dbConnection.openConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, username);
+            stmt.setString(2, password);
+            stmt.setString(3, email);
+            int rows = stmt.executeUpdate();
+            return rows > 0;
+        } catch (SQLException e) {
+            logger.log(Level.SEVERE, "Error registering user", e);
+            return false;
+        }
+    }
+
+    /**
+     * Adds a new book to the database.
+     */
+    public boolean addBook(Book book) {
+        String sql = "INSERT INTO books (title, author, genre, published_year, description, image_path, is_future) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        try (Connection conn = dbConnection.openConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, book.getTitle());
+            stmt.setString(2, book.getAuthor());
+            stmt.setString(3, book.getGenre());
+            stmt.setInt(4, book.getPublishedYear());
+            stmt.setString(5, book.getDescription());
+            stmt.setString(6, book.getImagePath());
+            stmt.setBoolean(7, book.isFuture());
+            int rows = stmt.executeUpdate();
+            return rows > 0;
+        } catch (SQLException e) {
+            logger.log(Level.SEVERE, "Error adding book", e);
+            return false;
+        }
+    }
+
+    /**
+     * Updates an existing book in the database.
+     */
+    public boolean updateBook(Book book) {
+        String sql = "UPDATE books SET title = ?, author = ?, genre = ?, published_year = ?, description = ?, image_path = ?, is_future = ? WHERE id = ?";
+        try (Connection conn = dbConnection.openConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, book.getTitle());
+            stmt.setString(2, book.getAuthor());
+            stmt.setString(3, book.getGenre());
+            stmt.setInt(4, book.getPublishedYear());
+            stmt.setString(5, book.getDescription());
+            stmt.setString(6, book.getImagePath());
+            stmt.setBoolean(7, book.isFuture());
+            stmt.setInt(8, book.getId());
+            int rows = stmt.executeUpdate();
+            return rows > 0;
+        } catch (SQLException e) {
+            logger.log(Level.SEVERE, "Error updating book", e);
+            return false;
+        }
+    }
+
+    /**
+     * Deletes a book from the database.
+     */
+    public boolean deleteBook(int bookId) {
+        String sql = "DELETE FROM books WHERE id = ?";
+        try (Connection conn = dbConnection.openConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, bookId);
+            int rows = stmt.executeUpdate();
+            return rows > 0;
+        } catch (SQLException e) {
+            logger.log(Level.SEVERE, "Error deleting book", e);
+            return false;
+        }
+    }
+
+    /**
+     * Fetches all borrowed books with user information for administrative monitoring.
+     */
+    public List<String[]> getAllBorrowedBooksAdmin() {
+        List<String[]> borrowedList = new ArrayList<>();
+        String sql = "SELECT u.username, u.email, b.title, bb.borrow_date " +
+                     "FROM borrowed_books bb " +
+                     "JOIN users u ON bb.user_id = u.id " +
+                     "JOIN books b ON bb.book_id = b.id " +
+                     "ORDER BY bb.borrow_date DESC";
+        try (Connection conn = dbConnection.openConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+            while (rs.next()) {
+                borrowedList.add(new String[]{
+                    rs.getString("username"),
+                    rs.getString("email"),
+                    rs.getString("title"),
+                    rs.getString("borrow_date")
+                });
+            }
+        } catch (SQLException e) {
+            logger.log(Level.SEVERE, "Error fetching borrowed books for admin", e);
+        }
+        return borrowedList;
+    }
 }

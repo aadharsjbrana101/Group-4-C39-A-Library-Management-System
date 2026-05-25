@@ -29,6 +29,10 @@ public class UserCaataalog extends javax.swing.JFrame {
     private List<Book> allBooks = new ArrayList<>();
     private List<Book> displayedBooks = new ArrayList<>();
     private Book selectedBook = null;
+    
+    // User session state
+    private int userId = 1;
+    private String username = "Aman";
 
     // View panels
     private BackgroundPanel backgroundPanel;
@@ -54,9 +58,25 @@ public class UserCaataalog extends javax.swing.JFrame {
     private DragGlassPane glassPane;
 
     /**
-     * Creates new form UserCaataalog
+     * Creates new form UserCaataalog (Default)
      */
     public UserCaataalog() {
+        initComponents();
+        try {
+            allBooks = catalogDAO.getAllBooks();
+        } catch (Exception e) {
+            logger.log(java.util.logging.Level.SEVERE, "Failed to connect to database.", e);
+        }
+        customSetup();
+    }
+
+    /**
+     * Parameterized constructor for dynamic logged-in session
+     */
+    public UserCaataalog(int userId, String username) {
+        this.userId = userId;
+        this.username = username;
+        
         // First load the NetBeans standard generated components
         initComponents();
         
@@ -76,7 +96,7 @@ public class UserCaataalog extends javax.swing.JFrame {
      * and wraps the window in glassmorphic, visual components at runtime.
      */
     private void customSetup() {
-        setTitle("LMS - High Fidelity User Book Catalog");
+        setTitle("LMS - High Fidelity User Book Catalog (" + username + ")");
         setResizable(false);
 
         // Setup custom Drag-and-Drop glass pane
@@ -125,7 +145,8 @@ public class UserCaataalog extends javax.swing.JFrame {
         sidebarBtn5.addActionListener(e -> {
             int choice = JOptionPane.showConfirmDialog(this, "Are you sure you want to Logout?", "Logout confirmation", JOptionPane.YES_NO_OPTION);
             if (choice == JOptionPane.YES_OPTION) {
-                System.exit(0);
+                new AuthFrame().setVisible(true);
+                this.dispose();
             }
         });
 
@@ -427,7 +448,7 @@ public class UserCaataalog extends javax.swing.JFrame {
             boolean isOverMyBooks = (framePoint.x >= 0 && framePoint.x <= 260 && framePoint.y >= 240 && framePoint.y <= 360);
 
             if (isOverMyBooks) {
-                boolean success = catalogDAO.borrowBook(1, book.getId());
+                boolean success = catalogDAO.borrowBook(userId, book.getId());
                 if (success) {
                     showToast("Borrowed: " + book.getTitle(), new Color(46, 204, 113));
                     myBooksPanel.refreshList();
@@ -816,7 +837,7 @@ public class UserCaataalog extends javax.swing.JFrame {
 
         public void refreshList() {
             gridPanel.removeAll();
-            List<Book> borrowed = catalogDAO.getBorrowedBooks(1);
+            List<Book> borrowed = catalogDAO.getBorrowedBooks(userId);
 
             if (borrowed.isEmpty()) {
                 emptyLabel.setVisible(true);
@@ -848,7 +869,7 @@ public class UserCaataalog extends javax.swing.JFrame {
                     btnReturn.setPreferredSize(new Dimension(160, 25));
                     
                     btnReturn.addActionListener(e -> {
-                        boolean success = catalogDAO.returnBook(1, b.getId());
+                        boolean success = catalogDAO.returnBook(userId, b.getId());
                         if (success) {
                             showToast("Returned: " + b.getTitle(), new Color(46, 204, 113));
                             refreshList();
@@ -1023,12 +1044,12 @@ public class UserCaataalog extends javax.swing.JFrame {
                 imgLabel.setHorizontalAlignment(SwingConstants.CENTER);
             }
 
-            boolean isBorrowed = catalogDAO.isBorrowed(1, b.getId());
+            boolean isBorrowed = catalogDAO.isBorrowed(userId, b.getId());
             if (isBorrowed) {
                 btnAction.setText("Return Book");
                 for (ActionListener al : btnAction.getActionListeners()) btnAction.removeActionListener(al);
                 btnAction.addActionListener(e -> {
-                    boolean ok = catalogDAO.returnBook(1, b.getId());
+                    boolean ok = catalogDAO.returnBook(userId, b.getId());
                     if (ok) {
                         showToast("Returned: " + b.getTitle(), new Color(46, 204, 113));
                         displayBook(b);
@@ -1038,7 +1059,7 @@ public class UserCaataalog extends javax.swing.JFrame {
                 btnAction.setText("Borrow Book");
                 for (ActionListener al : btnAction.getActionListeners()) btnAction.removeActionListener(al);
                 btnAction.addActionListener(e -> {
-                    boolean ok = catalogDAO.borrowBook(1, b.getId());
+                    boolean ok = catalogDAO.borrowBook(userId, b.getId());
                     if (ok) {
                         showToast("Borrowed: " + b.getTitle(), new Color(46, 204, 113));
                         displayBook(b);
@@ -1071,7 +1092,7 @@ public class UserCaataalog extends javax.swing.JFrame {
             stat1 = createStatCard("Total Library Catalog", "8 Books Available", new Color(52, 152, 219));
             stat2 = createStatCard("My Borrowed Books", "0 Borrowed", new Color(46, 204, 113));
             stat3 = createStatCard("Upcoming Future Releases", "4 Scheduled", new Color(241, 196, 15));
-            stat4 = createStatCard("LMS Account Tier", "Premium Member", new Color(155, 89, 182));
+            stat4 = createStatCard("LMS Account: " + username, "Premium Member", new Color(155, 89, 182));
 
             cardContainer.add(stat1);
             cardContainer.add(stat2);
@@ -1080,7 +1101,7 @@ public class UserCaataalog extends javax.swing.JFrame {
         }
 
         public void refreshStats() {
-            List<Book> borrowed = catalogDAO.getBorrowedBooks(1);
+            List<Book> borrowed = catalogDAO.getBorrowedBooks(userId);
             stat2.setText("<html><center><font size='6' color='#ffffff'>" + borrowed.size() + "</font><br><font size='4' color='#cccccc'>Borrowed Books</font></center></html>");
         }
 
@@ -1186,38 +1207,22 @@ public class UserCaataalog extends javax.swing.JFrame {
         getContentPane().setLayout(null);
 
         jButton1.setText("jButton1");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
+        jButton1.addActionListener(this::jButton1ActionPerformed);
         getContentPane().add(jButton1);
         jButton1.setBounds(0, 0, 260, 120);
 
         jButton2.setText("jButton1");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
-            }
-        });
+        jButton2.addActionListener(this::jButton2ActionPerformed);
         getContentPane().add(jButton2);
         jButton2.setBounds(0, 120, 260, 120);
 
         jButton3.setText("jButton1");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
-            }
-        });
+        jButton3.addActionListener(this::jButton3ActionPerformed);
         getContentPane().add(jButton3);
         jButton3.setBounds(0, 240, 260, 120);
 
         jButton4.setText("jButton1");
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
-            }
-        });
+        jButton4.addActionListener(this::jButton4ActionPerformed);
         getContentPane().add(jButton4);
         jButton4.setBounds(0, 360, 260, 120);
 
