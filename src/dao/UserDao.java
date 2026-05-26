@@ -166,7 +166,7 @@ public class UserDao {
         }
     }
 
-    // UPDATE password
+    // Sprint 3: Forgot password database handlers
     public boolean updatePassword(String email, String newPassword) throws SQLException {
         Connection conn = mysql.openconnection();
         if (conn == null) {
