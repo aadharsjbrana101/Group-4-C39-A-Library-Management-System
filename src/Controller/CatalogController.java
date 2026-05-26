@@ -14,6 +14,7 @@ import java.util.List;
 import javax.swing.JOptionPane;
 
 // Sprint 2: Bind search action listeners
+// Sprint 3: Genre filter listener binding
 public class CatalogController {
     private final CatalogView view;
     private final BookDao bookDao;
