@@ -113,7 +113,7 @@ public class FineDao {
         }
     }
 
-    // Get unpaid fines count for user
+    // Sprint 3: Fines query by user id
     public int getUnpaidFinesCountForUser(int userId) throws SQLException {
         Connection conn = mysql.openconnection();
         if (conn == null) {
