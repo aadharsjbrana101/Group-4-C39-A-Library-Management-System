@@ -16,6 +16,7 @@ import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
+// Sprint 3: Set user alert reminders trigger
 public class UserPaymentsController {
     private final UserPaymentsView view;
     private final userdata currentUser;
