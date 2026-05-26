@@ -206,7 +206,7 @@ public class BorrowDao {
         }
     }
 
-    // Renew Book
+    // Sprint 3: Renewal date updates and query handling
     public boolean renewBook(int borrowId) throws SQLException {
         Connection conn = mysql.openconnection();
         if (conn == null) {
