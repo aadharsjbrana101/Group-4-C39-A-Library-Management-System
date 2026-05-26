@@ -4,6 +4,7 @@ import java.sql.Date;
 
 public class Fine {
     // Sprint 2: Fine transaction status options
+    // Sprint 3: Fine reminder properties
     private int id;
     private int borrowId;
     private int userId;
