@@ -6,6 +6,7 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
 public class UserPaymentsView extends javax.swing.JFrame {
+    // Sprint 3: Due date reminder display alerts
     private final Model.userdata currentUser;
 
     public UserPaymentsView() {
