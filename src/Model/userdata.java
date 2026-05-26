@@ -6,6 +6,7 @@ package Model;
 
 public class userdata {
     // Sprint 2: User Login Session properties
+    // Sprint 3: Forgot Password security fields
     private int user_id;
     private String username;
     private String email;
