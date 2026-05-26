@@ -140,6 +140,7 @@ public class BookDao {
     }
 
     // Sprint 2: Wildcard search queries
+    // Sprint 3: Category filtering query updates
     public List<Book> getCatalogBooks(String searchTitle, String genre) throws SQLException {
         List<Book> list = new ArrayList<>();
         Connection conn = mysql.openconnection();
