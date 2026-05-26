@@ -8,6 +8,7 @@ import javax.swing.border.EmptyBorder;
 public class UserBooksView extends javax.swing.JFrame {
     private final Model.userdata currentUser;
 
+    // Sprint 3: Renew book button design
     public UserBooksView() {
         this.currentUser = null;
         initComponents();
