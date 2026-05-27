@@ -215,7 +215,7 @@ public class UserPayments extends javax.swing.JFrame {
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
  
-    }        // TODO add your handling code here:
+           // TODO add your handling code here:
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void jButton1FocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jButton1FocusGained
@@ -272,4 +272,36 @@ public class UserPayments extends javax.swing.JFrame {
     private javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables
 
+// ── Listener registration methods ──────────────────────────────────────────
+
+public void addDashboardListener(java.awt.event.ActionListener listener) {
+    jButton1.addActionListener(listener);
+    jButton3.addActionListener(listener); // both Dashboard buttons
+}
+
+public void addPaymentsListener(java.awt.event.ActionListener listener) {
+    jButton5.addActionListener(listener);
+}
+
+public void addLogoutListener(java.awt.event.ActionListener listener) {
+    jButton6.addActionListener(listener);
+}
+
+// ── Getter methods for table and labels ────────────────────────────────────
+
+public javax.swing.JTable getFinesTable() {
+    return jTable1;
+}
+
+public void setTotalFeesLabel(String text) {
+    jLabel4.setText(text);   // jLabel4 is inside jPanel4 (Total Fees)
+}
+
+public void setPendingFeesLabel(String text) {
+    jLabel5.setText(text);   // jLabel5 is inside jPanel5 (Pending Fees)
+}
+
+public void setPaidFeesLabel(String text) {
+    jLabel7.setText(text);   // jLabel7 is inside jPanel6 (Paid Fees)
+}
 }
