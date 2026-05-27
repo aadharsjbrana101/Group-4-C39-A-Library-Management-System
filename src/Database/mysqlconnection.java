@@ -17,12 +17,12 @@ public class mysqlconnection implements Db{
     @Override
     public Connection openConnection() {
                try{
-            String username = "rashmi";
+            String username = "newuser";
             String password = "1234";
             String database = "lms";
             Connection conn;
             conn = DriverManager.getConnection(
-            "127.0.0.1:3306" + database,username,password
+           "jdbc:mysql://127.0.0.1:3306/" + database,username,password
             );
             if(conn != null){
                 System.out.print("Connection successfull");
@@ -38,17 +38,36 @@ public class mysqlconnection implements Db{
 
     @Override
     public void closeConnection(Connection conn) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        try{
+            if(conn !=null && !conn.isClosed());
+            conn.close();
+            System.out.println("connection is closed");  
+        }catch(SQLException e){
+            System.out.println(e);
+        }
     }
 
     @Override
     public ResultSet runQuery(Connection conn, String query) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        try{
+            Statement stmp= conn.createStatement();
+            ResultSet result=stmp.executeQuery(query);
+            return result;
+        }catch(SQLException e){
+            System.out.println(e);
+        return null;
+        }
     }
 
     @Override
     public int executeUpdate(Connection conn, String query) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+     try{
+             Statement stmp= conn.createStatement();
+            int result=stmp.executeUpdate(query);
+            return result;
+        }catch(SQLException e){
+            System.out.println(e);
+        return -1;
+        }
     }
-
 }
