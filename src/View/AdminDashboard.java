@@ -4,6 +4,9 @@
  */
 package View;
 
+import Controller.AdminDashboardController;
+import java.awt.event.ActionListener;
+
 /**
  *
  * @author ronishpant
@@ -302,4 +305,46 @@ public class AdminDashboard extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables
+
+// ── Listener registration methods ──────────────────────────────────
+public void addCatalogListener(ActionListener listener) {
+    jButton2.addActionListener(listener);
+}
+
+public void addLogoutListener(ActionListener listener) {
+    jButton6.addActionListener(listener);
+}
+
+public void addDashboardListener(ActionListener listener) {
+    jButton1.addActionListener(listener);
+}
+
+public void addPaymentsListener(ActionListener listener) {
+    jButton5.addActionListener(listener);
+}
+
+public void addMyBooksListener(ActionListener listener) {
+    jButton4.addActionListener(listener);
+}
+
+// ── Getter methods for Controller to read/update UI ────────────────
+public javax.swing.JTable getBooksTable() {
+    return jTable1;
+}
+
+public void setTotalBooksLabel(String value) {
+    jLabel4.setText(value);   // jLabel4 = value under "Total Books" card
+}
+
+public void setTotalUsersLabel(String value) {
+    jLabel6.setText(value);   // jLabel6 = value under "Total User" card
+}
+
+public void setIssuedBooksLabel(String value) {
+    jLabel8.setText(value);   // jLabel8 = value under "Issued Books" card
+}
+
+public void setPendingFeesLabel(String value) {
+    jLabelCard4Value.setText(value);  // Pending Fees card value
+}
 }
