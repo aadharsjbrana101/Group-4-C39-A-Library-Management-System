@@ -3,10 +3,10 @@ package Controller;
 import Model.Book;
 import Model.userdata;
 import View.BookDetailView;
-import View.UserLogin;
+// import View.UserLogin;
 import dao.BookDao;
-import dao.BorrowDao;
-import dao.FineDao;
+// import dao.BorrowDao;
+// import dao.FineDao;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
@@ -16,9 +16,9 @@ public class BookDetailController {
     private final BookDetailView view;
     private final Book book;
     private final userdata currentUser;
-    private final BorrowDao borrowDao = new BorrowDao();
+    // private final BorrowDao borrowDao = new BorrowDao();
     private final BookDao bookDao = new BookDao();
-    private final FineDao fineDao = new FineDao();
+    // private final FineDao fineDao = new FineDao();
 
     public BookDetailController(BookDetailView view, Book book, userdata user) {
         this.view = view;
@@ -57,38 +57,8 @@ public class BookDetailController {
     class BorrowBookListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            try {
-                // 1. Check if user has unpaid fines
-                double outstandingFines = fineDao.getUnpaidFinesSumForUser(currentUser.getId());
-                if (outstandingFines > 0.0) {
-                    JOptionPane.showMessageDialog(view, "Borrow Denied! You have outstanding fines of Rs. " + String.format("%.2f", outstandingFines) + ". Please pay them first.", "Account Blocked", JOptionPane.WARNING_MESSAGE);
-                    return;
-                }
-
-                // 2. Check if already borrowing
-                if (borrowDao.hasActiveBorrow(currentUser.getId(), book.getId())) {
-                    JOptionPane.showMessageDialog(view, "You are already borrowing an active copy of this book.", "Duplicate Borrow", JOptionPane.INFORMATION_MESSAGE);
-                    return;
-                }
-
-                // 3. Attempt borrow
-                boolean success = borrowDao.borrowBook(currentUser.getId(), book.getId());
-                if (success) {
-                    JOptionPane.showMessageDialog(view, "Book borrowed successfully! It is due in 14 days.", "Success", JOptionPane.INFORMATION_MESSAGE);
-                    refreshBookDetails();
-                    
-                    // Route to My Books to view active borrow
-                    View.UserBooksView ubv = new View.UserBooksView(currentUser);
-                    UserBooksController ubc = new UserBooksController(ubv, currentUser);
-                    ubc.open();
-                    view.dispose();
-                } else {
-                    JOptionPane.showMessageDialog(view, "Book is currently out of stock.", "Out of Stock", JOptionPane.WARNING_MESSAGE);
-                }
-            } catch (SQLException ex) {
-                JOptionPane.showMessageDialog(view, "Database error: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-                ex.printStackTrace();
-            }
+            // Borrowing logic is stubbed in catalog branch
+            JOptionPane.showMessageDialog(view, "Book Borrowing is stubbed in catalog branch.", "Stubbed Feature", JOptionPane.INFORMATION_MESSAGE);
         }
     }
 
@@ -106,10 +76,11 @@ public class BookDetailController {
     class DashboardNavListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            View.UserDashboard ud = new View.UserDashboard(currentUser);
-            UserDashboardController udc = new UserDashboardController(ud, currentUser);
-            udc.open();
-            view.dispose();
+            // View.UserDashboard ud = new View.UserDashboard(currentUser);
+            // UserDashboardController udc = new UserDashboardController(ud, currentUser);
+            // udc.open();
+            // view.dispose();
+            JOptionPane.showMessageDialog(view, "Dashboard is stubbed in catalog branch.");
         }
     }
 
@@ -126,20 +97,22 @@ public class BookDetailController {
     class MyBooksNavListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            View.UserBooksView ubv = new View.UserBooksView(currentUser);
-            UserBooksController ubc = new UserBooksController(ubv, currentUser);
-            ubc.open();
-            view.dispose();
+            // View.UserBooksView ubv = new View.UserBooksView(currentUser);
+            // UserBooksController ubc = new UserBooksController(ubv, currentUser);
+            // ubc.open();
+            // view.dispose();
+            JOptionPane.showMessageDialog(view, "My Books is stubbed in catalog branch.");
         }
     }
 
     class PaymentsNavListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            View.UserPaymentsView upv = new View.UserPaymentsView(currentUser);
-            UserPaymentsController upc = new UserPaymentsController(upv, currentUser);
-            upc.open();
-            view.dispose();
+            // View.UserPaymentsView upv = new View.UserPaymentsView(currentUser);
+            // UserPaymentsController upc = new UserPaymentsController(upv, currentUser);
+            // upc.open();
+            // view.dispose();
+            JOptionPane.showMessageDialog(view, "Payments is stubbed in catalog branch.");
         }
     }
 
@@ -149,9 +122,10 @@ public class BookDetailController {
             int confirm = JOptionPane.showConfirmDialog(view, "Are you sure you want to logout?", "Logout", JOptionPane.YES_NO_OPTION);
             if (confirm == JOptionPane.YES_OPTION) {
                 view.dispose();
-                UserLogin loginFrame = new UserLogin();
-                LoginController lc = new LoginController(loginFrame);
-                lc.open();
+                // UserLogin loginFrame = new UserLogin();
+                // LoginController lc = new LoginController(loginFrame);
+                // lc.open();
+                JOptionPane.showMessageDialog(null, "Logout Successful! (Login screen is stubbed in catalog branch)");
             }
         }
     }

@@ -3,7 +3,7 @@ package Controller;
 import Model.Book;
 import Model.userdata;
 import View.CatalogView;
-import View.UserLogin;
+// import View.UserLogin;
 import dao.BookDao;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -89,30 +89,33 @@ public class CatalogController {
     class DashboardNavListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            View.UserDashboard ud = new View.UserDashboard(currentUser);
-            UserDashboardController udc = new UserDashboardController(ud, currentUser);
-            udc.open();
-            view.dispose();
+            // View.UserDashboard ud = new View.UserDashboard(currentUser);
+            // UserDashboardController udc = new UserDashboardController(ud, currentUser);
+            // udc.open();
+            // view.dispose();
+            JOptionPane.showMessageDialog(view, "Dashboard is stubbed in catalog branch.");
         }
     }
 
     class MyBooksNavListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            View.UserBooksView ubv = new View.UserBooksView(currentUser);
-            UserBooksController ubc = new UserBooksController(ubv, currentUser);
-            ubc.open();
-            view.dispose();
+            // View.UserBooksView ubv = new View.UserBooksView(currentUser);
+            // UserBooksController ubc = new UserBooksController(ubv, currentUser);
+            // ubc.open();
+            // view.dispose();
+            JOptionPane.showMessageDialog(view, "My Books is stubbed in catalog branch.");
         }
     }
 
     class PaymentsNavListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            View.UserPaymentsView upv = new View.UserPaymentsView(currentUser);
-            UserPaymentsController upc = new UserPaymentsController(upv, currentUser);
-            upc.open();
-            view.dispose();
+            // View.UserPaymentsView upv = new View.UserPaymentsView(currentUser);
+            // UserPaymentsController upc = new UserPaymentsController(upv, currentUser);
+            // upc.open();
+            // view.dispose();
+            JOptionPane.showMessageDialog(view, "Payments is stubbed in catalog branch.");
         }
     }
 
@@ -139,9 +142,10 @@ public class CatalogController {
             int confirm = JOptionPane.showConfirmDialog(view, "Are you sure you want to logout?", "Logout", JOptionPane.YES_NO_OPTION);
             if (confirm == JOptionPane.YES_OPTION) {
                 view.dispose();
-                UserLogin loginFrame = new UserLogin();
-                LoginController lc = new LoginController(loginFrame);
-                lc.open();
+                // UserLogin loginFrame = new UserLogin();
+                // LoginController lc = new LoginController(loginFrame);
+                // lc.open();
+                JOptionPane.showMessageDialog(null, "Logout Successful! (Login screen is stubbed in catalog branch)");
             }
         }
     }

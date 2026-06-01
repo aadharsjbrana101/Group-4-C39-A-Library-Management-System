@@ -23,8 +23,13 @@ public class LibraryManagementSystem {
             java.util.logging.Logger.getLogger(LibraryManagementSystem.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
 
-        // Launch the gorgeous glassmorphic AuthFrame
-        java.awt.EventQueue.invokeLater(() -> new View.AuthFrame().setVisible(true));
+        // Launch CatalogView directly in isolation mode
+        java.awt.EventQueue.invokeLater(() -> {
+            View.CatalogView cv = new View.CatalogView();
+            Model.userdata testUser = new Model.userdata("Aman (Catalog Isolation)", "aman@lms.com", "user");
+            Controller.CatalogController cc = new Controller.CatalogController(cv, testUser);
+            cc.open();
+        });
     }
     
 }
