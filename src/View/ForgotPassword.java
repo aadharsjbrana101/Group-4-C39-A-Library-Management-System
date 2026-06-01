@@ -7,7 +7,8 @@ package View;
 import java.awt.Color;
 
 /**
- *
+ * Swing User Interface for resetting lost user passwords.
+ * 
  * @author aadha
  */
 public class ForgotPassword extends javax.swing.JFrame {
