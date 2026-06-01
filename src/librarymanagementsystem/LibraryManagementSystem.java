@@ -1,20 +1,27 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Main.java to edit this template
- */
 package librarymanagementsystem;
 
-/**
- *
- * @author aadha
- */
-public class LibraryManagementSystem {
+import Controller.LoginController;
+import View.UserLogin;
+import dao.UserDao;
+import dao.BookDao;
+import dao.BorrowDao;
+import dao.FineDao;
+import dao.AdminLogDao;
 
-    /**
-     * @param args the command line arguments
-     */
+public class LibraryManagementSystem {
     public static void main(String[] args) {
-        // TODO code application logic here
+        // Initialize the database tables and schema modifications at startup
+        System.out.println("Initializing database schemas...");
+        new UserDao();
+        new BookDao();
+        new BorrowDao();
+        new FineDao();
+        new AdminLogDao();
+        System.out.println("Database initialization completed.");
+
+        // Start the application GUI
+        UserLogin login = new UserLogin();
+        LoginController lc = new LoginController(login);
+        lc.open();
     }
-    
 }

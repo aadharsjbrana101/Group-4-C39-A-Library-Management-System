@@ -9,6 +9,7 @@ import View.UserLogin;
 import View.UserSignUp;
 import View.ForgotPassword;
 
+// Sprint 4: Logout handler logic
 public class LoginController {
     private final UserDao userDao = new UserDao();
     private final UserLogin userView;
