@@ -57,14 +57,16 @@ public class LoginController {
                     
                     if ("admin".equalsIgnoreCase(authUser.getRole())) {
                         // Open Admin Dashboard
-                        View.AdminDashboard adv = new View.AdminDashboard(authUser);
-                        AdminDashboardController adc = new AdminDashboardController(adv, authUser);
-                        adc.open();
+                        // View.AdminDashboard adv = new View.AdminDashboard(authUser);
+                        // AdminDashboardController adc = new AdminDashboardController(adv, authUser);
+                        // adc.open();
+                        JOptionPane.showMessageDialog(null, "Admin Dashboard Stub (Auth isolation mode)");
                     } else {
                         // Open User Dashboard
-                        View.UserDashboard udv = new View.UserDashboard(authUser);
-                        UserDashboardController udc = new UserDashboardController(udv, authUser);
-                        udc.open();
+                        // View.UserDashboard udv = new View.UserDashboard(authUser);
+                        // UserDashboardController udc = new UserDashboardController(udv, authUser);
+                        // udc.open();
+                        JOptionPane.showMessageDialog(null, "User Dashboard Stub (Auth isolation mode)");
                     }
                 } else {
                     JOptionPane.showMessageDialog(userView, "Invalid username or password.");
