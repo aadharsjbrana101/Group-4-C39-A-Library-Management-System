@@ -9,6 +9,7 @@ public class UserBooksView extends javax.swing.JFrame {
     private final Model.userdata currentUser;
 
     // Sprint 3: Renew book button design
+    // Sprint 4: Borrow history log tables
     public UserBooksView() {
         this.currentUser = null;
         initComponents();
