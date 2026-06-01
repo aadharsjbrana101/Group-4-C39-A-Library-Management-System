@@ -7,7 +7,8 @@ package View;
 import java.awt.Color;
 
 /**
- *
+ * Swing User Interface for registering new library users.
+ * 
  * @author aadha
  */
 public class UserSignUp extends javax.swing.JFrame {
