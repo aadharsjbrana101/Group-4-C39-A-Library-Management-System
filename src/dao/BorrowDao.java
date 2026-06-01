@@ -264,7 +264,7 @@ public class BorrowDao {
         return getBorrowsByQuery("SELECT * FROM borrows WHERE user_id = ? AND status = 'returned' ORDER BY return_date DESC", userId);
     }
 
-    // Get All Borrow History for a User
+    // Sprint 4: Fetch history queries and logs by User ID
     public List<Borrow> getUserBorrowHistory(int userId) throws SQLException {
         return getBorrowsByQuery("SELECT * FROM borrows WHERE user_id = ? ORDER BY borrow_date DESC", userId);
     }
