@@ -56,4 +56,12 @@ public class mysqlconnection implements Db {
             return 0;
         }
     }
+
+    public Connection openconnection() {
+        return openConnection();
+    }
+
+    public void closeconnection(Connection conn) {
+        closeConnection(conn);
+    }
 }

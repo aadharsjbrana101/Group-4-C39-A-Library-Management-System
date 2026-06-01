@@ -5,7 +5,7 @@ import Model.Borrow;
 import Model.Fine;
 import Model.userdata;
 import View.AdminPaymentsView;
-import View.UserLogin;
+// import View.UserLogin;
 import dao.AdminLogDao;
 import dao.BookDao;
 import dao.BorrowDao;
@@ -165,30 +165,33 @@ public class AdminPaymentsController {
     class DashboardNavListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            View.AdminDashboard ad = new View.AdminDashboard(currentAdmin);
-            AdminDashboardController adc = new AdminDashboardController(ad, currentAdmin);
-            adc.open();
-            view.dispose();
+            // View.AdminDashboard ad = new View.AdminDashboard(currentAdmin);
+            // AdminDashboardController adc = new AdminDashboardController(ad, currentAdmin);
+            // adc.open();
+            // view.dispose();
+            JOptionPane.showMessageDialog(view, "Admin Dashboard is stubbed in payments branch.");
         }
     }
 
     class CatalogNavListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            View.AdminCatalogView acv = new View.AdminCatalogView(currentAdmin);
-            AdminCatalogController acc = new AdminCatalogController(acv, currentAdmin);
-            acc.open();
-            view.dispose();
+            // View.AdminCatalogView acv = new View.AdminCatalogView(currentAdmin);
+            // AdminCatalogController acc = new AdminCatalogController(acv, currentAdmin);
+            // acc.open();
+            // view.dispose();
+            JOptionPane.showMessageDialog(view, "Admin Catalog is stubbed in payments branch.");
         }
     }
 
     class UsersNavListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            View.AdminUsersView auv = new View.AdminUsersView(currentAdmin);
-            AdminUsersController auc = new AdminUsersController(auv, currentAdmin);
-            auc.open();
-            view.dispose();
+            // View.AdminUsersView auv = new View.AdminUsersView(currentAdmin);
+            // AdminUsersController auc = new AdminUsersController(auv, currentAdmin);
+            // auc.open();
+            // view.dispose();
+            JOptionPane.showMessageDialog(view, "Admin Users is stubbed in payments branch.");
         }
     }
 
@@ -198,9 +201,10 @@ public class AdminPaymentsController {
             int confirm = JOptionPane.showConfirmDialog(view, "Are you sure you want to logout?", "Logout", JOptionPane.YES_NO_OPTION);
             if (confirm == JOptionPane.YES_OPTION) {
                 view.dispose();
-                UserLogin loginFrame = new UserLogin();
-                LoginController lc = new LoginController(loginFrame);
-                lc.open();
+                // UserLogin loginFrame = new UserLogin();
+                // LoginController lc = new LoginController(loginFrame);
+                // lc.open();
+                JOptionPane.showMessageDialog(null, "Logout Successful! (Login screen is stubbed in payments branch)");
             }
         }
     }
