@@ -16,6 +16,7 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 // Sprint 3: Renew book action listener
+// Sprint 4: Table populators for history
 public class UserBooksController {
     private final UserBooksView view;
     private final userdata currentUser;
