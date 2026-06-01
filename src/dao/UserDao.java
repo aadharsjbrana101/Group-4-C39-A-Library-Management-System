@@ -183,7 +183,7 @@ public class UserDao {
         }
     }
 
-    // Sprint 3 (Ronish): Write user querying database methods
+    // GET all users for admin
     public List<userdata> getAllUsers() throws SQLException {
         List<userdata> list = new ArrayList<>();
         Connection conn = mysql.openconnection();

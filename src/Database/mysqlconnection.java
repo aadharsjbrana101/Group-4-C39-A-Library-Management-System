@@ -51,4 +51,11 @@ public class mysqlconnection implements Db{
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
+    public Connection openconnection() {
+        return openConnection();
+    }
+
+    public void closeconnection(Connection conn) {
+        closeConnection(conn);
+    }
 }

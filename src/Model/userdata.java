@@ -5,7 +5,6 @@
 package Model;
 
 public class userdata {
-    // Sprint 3 (Ronish): Support profile states
     private int user_id;
     private String username;
     private String email;

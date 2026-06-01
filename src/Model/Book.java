@@ -1,8 +1,6 @@
 package Model;
 
 public class Book {
-    // Sprint 1 (Ronish): Add inventory control states
-    // Sprint 2: Book search properties
     private int id;
     private String title;
     private String author;

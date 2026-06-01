@@ -3,7 +3,7 @@ package Controller;
 import Model.AdminLog;
 import Model.userdata;
 import View.AdminDashboard;
-import View.UserLogin;
+// import View.UserLogin;
 import dao.AdminLogDao;
 import dao.BookDao;
 import dao.BorrowDao;
@@ -116,10 +116,11 @@ public class AdminDashboardController {
     class PaymentsNavListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            View.AdminPaymentsView apv = new View.AdminPaymentsView(currentAdmin);
-            AdminPaymentsController apc = new AdminPaymentsController(apv, currentAdmin);
-            apc.open();
-            view.dispose();
+            // View.AdminPaymentsView apv = new View.AdminPaymentsView(currentAdmin);
+            // AdminPaymentsController apc = new AdminPaymentsController(apv, currentAdmin);
+            // apc.open();
+            // view.dispose();
+            JOptionPane.showMessageDialog(view, "Admin Payments is stubbed in dashboard branch.");
         }
     }
 
@@ -129,9 +130,10 @@ public class AdminDashboardController {
             int confirm = JOptionPane.showConfirmDialog(view, "Are you sure you want to logout?", "Logout", JOptionPane.YES_NO_OPTION);
             if (confirm == JOptionPane.YES_OPTION) {
                 view.dispose();
-                UserLogin loginFrame = new UserLogin();
-                LoginController lc = new LoginController(loginFrame);
-                lc.open();
+                // UserLogin loginFrame = new UserLogin();
+                // LoginController lc = new LoginController(loginFrame);
+                // lc.open();
+                JOptionPane.showMessageDialog(null, "Logout Successful! (Login screen is stubbed in dashboard branch)");
             }
         }
     }
