@@ -9,7 +9,9 @@ import View.UserLogin;
 import View.UserSignUp;
 import View.ForgotPassword;
 
-// Sprint 4: Logout handler logic
+/**
+ * Controller class managing interactions between UserLogin view and UserDao.
+ */
 public class LoginController {
     private final UserDao userDao = new UserDao();
     private final UserLogin userView;

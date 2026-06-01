@@ -6,6 +6,9 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Database access object (DAO) for managing users table queries.
+ */
 public class UserDao {
     private final mysqlconnection mysql = new mysqlconnection();
 
@@ -76,7 +79,7 @@ public class UserDao {
         }
     }
 
-    // Sprint 2: Login validation query methods
+    // Authenticate and return userdata
     public userdata authenticate(String usernameOrEmail, String password) throws SQLException {
         Connection conn = mysql.openconnection();
         if (conn == null) {
@@ -166,7 +169,7 @@ public class UserDao {
         }
     }
 
-    // Sprint 3: Forgot password database handlers
+    // UPDATE password
     public boolean updatePassword(String email, String newPassword) throws SQLException {
         Connection conn = mysql.openconnection();
         if (conn == null) {
@@ -209,7 +212,7 @@ public class UserDao {
         return list;
     }
 
-    // Sprint 4: User connection log trace and status updates
+    // UPDATE user status (block/unblock)
     public boolean updateUserStatus(int userId, String status) throws SQLException {
         Connection conn = mysql.openconnection();
         if (conn == null) {
