@@ -7,7 +7,8 @@ package View;
 import java.awt.Color;
 
 /**
- *
+ * Swing User Interface for logging in existing users.
+ * 
  * @author aadha
  */
 public class UserLogin extends javax.swing.JFrame {
