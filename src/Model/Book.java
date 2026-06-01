@@ -3,6 +3,7 @@ package Model;
 public class Book {
     // Sprint 2: Book search properties
     // Sprint 3: Book genre filters
+    // Sprint 4: Book detail description fields
     private int id;
     private String title;
     private String author;
