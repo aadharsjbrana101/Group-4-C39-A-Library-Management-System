@@ -191,7 +191,7 @@ public class FineDao {
         return 0.0;
     }
 
-    // Get total outstanding fines (for Admin dashboard stats)
+    // Sprint 4: Outstanding overdue accounts calculations
     public double getTotalOutstandingFines() throws SQLException {
         Connection conn = mysql.openconnection();
         if (conn == null) {
