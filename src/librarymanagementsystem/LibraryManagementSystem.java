@@ -14,7 +14,13 @@ public class LibraryManagementSystem {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here
+        // Launch UserBooksView directly in isolation mode
+        java.awt.EventQueue.invokeLater(() -> {
+            Model.userdata mockUser = new Model.userdata(1, "Rashmi (Books Isolation)", "rashmi@lms.com", "1234", "user", "active");
+            View.UserBooksView ubv = new View.UserBooksView(mockUser);
+            Controller.UserBooksController ubc = new Controller.UserBooksController(ubv, mockUser);
+            ubc.open();
+        });
     }
     
 }

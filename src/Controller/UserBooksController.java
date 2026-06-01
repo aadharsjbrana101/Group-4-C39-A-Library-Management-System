@@ -4,7 +4,7 @@ import Model.Book;
 import Model.Borrow;
 import Model.userdata;
 import View.UserBooksView;
-import View.UserLogin;
+// import View.UserLogin;
 import dao.BookDao;
 import dao.BorrowDao;
 import dao.FineDao;
@@ -171,30 +171,33 @@ public class UserBooksController {
     class DashboardNavListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            View.UserDashboard ud = new View.UserDashboard(currentUser);
-            UserDashboardController udc = new UserDashboardController(ud, currentUser);
-            udc.open();
-            view.dispose();
+            // View.UserDashboard ud = new View.UserDashboard(currentUser);
+            // UserDashboardController udc = new UserDashboardController(ud, currentUser);
+            // udc.open();
+            // view.dispose();
+            JOptionPane.showMessageDialog(view, "Dashboard is stubbed in books branch.");
         }
     }
 
     class CatalogNavListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            View.CatalogView cv = new View.CatalogView();
-            CatalogController cc = new CatalogController(cv, currentUser);
-            cc.open();
-            view.dispose();
+            // View.CatalogView cv = new View.CatalogView();
+            // CatalogController cc = new CatalogController(cv, currentUser);
+            // cc.open();
+            // view.dispose();
+            JOptionPane.showMessageDialog(view, "Catalog is stubbed in books branch.");
         }
     }
 
     class PaymentsNavListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            View.UserPaymentsView upv = new View.UserPaymentsView(currentUser);
-            UserPaymentsController upc = new UserPaymentsController(upv, currentUser);
-            upc.open();
-            view.dispose();
+            // View.UserPaymentsView upv = new View.UserPaymentsView(currentUser);
+            // UserPaymentsController upc = new UserPaymentsController(upv, currentUser);
+            // upc.open();
+            // view.dispose();
+            JOptionPane.showMessageDialog(view, "Payments is stubbed in books branch.");
         }
     }
 
@@ -204,9 +207,10 @@ public class UserBooksController {
             int confirm = JOptionPane.showConfirmDialog(view, "Are you sure you want to logout?", "Logout", JOptionPane.YES_NO_OPTION);
             if (confirm == JOptionPane.YES_OPTION) {
                 view.dispose();
-                UserLogin loginFrame = new UserLogin();
-                LoginController lc = new LoginController(loginFrame);
-                lc.open();
+                // UserLogin loginFrame = new UserLogin();
+                // LoginController lc = new LoginController(loginFrame);
+                // lc.open();
+                JOptionPane.showMessageDialog(null, "Logout Successful! (Login screen is stubbed in books branch)");
             }
         }
     }
