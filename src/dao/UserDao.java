@@ -209,7 +209,7 @@ public class UserDao {
         return list;
     }
 
-    // UPDATE user status (block/unblock)
+    // Sprint 4: User connection log trace and status updates
     public boolean updateUserStatus(int userId, String status) throws SQLException {
         Connection conn = mysql.openconnection();
         if (conn == null) {
