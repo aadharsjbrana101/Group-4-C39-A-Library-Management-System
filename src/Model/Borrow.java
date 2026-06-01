@@ -5,6 +5,7 @@ import java.sql.Date;
 public class Borrow {
     // Sprint 2: Borrow return status and states
     // Sprint 3: Borrow renewal properties
+    // Sprint 4: Borrow history log properties
     private int id;
     private int userId;
     private int bookId;
