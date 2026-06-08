@@ -4,9 +4,6 @@
  */
 package Model;
 
-/**
- * Class representing a user entity in the library management system.
- */
 public class userdata {
     private int user_id;
     private String username;

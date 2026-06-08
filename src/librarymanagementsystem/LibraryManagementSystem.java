@@ -8,20 +8,25 @@ import dao.UserDao;
 // import dao.FineDao;
 // import dao.AdminLogDao;
 
-public class LibraryManagementSystem {
     public static void main(String[] args) {
-        // Initialize the database tables and schema modifications at startup
-        System.out.println("Initializing database schemas...");
-        new UserDao();
-        // new BookDao();
-        // new BorrowDao();
-        // new FineDao();
-        // new AdminLogDao();
-        System.out.println("Database initialization completed.");
+        // Set beautiful Swing Look and Feel
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (Exception ex) {
+            java.util.logging.Logger.getLogger(LibraryManagementSystem.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
 
-        // Start the application GUI
-        UserLogin login = new UserLogin();
-        LoginController lc = new LoginController(login);
-        lc.open();
+        // Launch CatalogView directly in isolation mode
+        java.awt.EventQueue.invokeLater(() -> {
+            View.CatalogView cv = new View.CatalogView();
+            Model.userdata testUser = new Model.userdata("Aman (Catalog Isolation)", "aman@lms.com", "user");
+            Controller.CatalogController cc = new Controller.CatalogController(cv, testUser);
+            cc.open();
+        });
     }
 }

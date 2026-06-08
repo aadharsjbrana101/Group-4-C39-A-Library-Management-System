@@ -18,22 +18,11 @@ public class mysqlconnection implements Db{
     public Connection openConnection() {
         try {
             String username = "root";
-            String password = "1234@";
+            String password = "Aman@107";
             String database = "lms";
-            
-            // Ensure the JDBC driver is loaded
-            try {
-                Class.forName("com.mysql.cj.jdbc.Driver");
-            } catch (ClassNotFoundException e) {
-                try {
-                    Class.forName("com.mysql.jdbc.Driver");
-                } catch (ClassNotFoundException ex) {
-                    System.out.println("MySQL Driver not found in classpath.");
-                }
-            }
-
-            Connection conn = DriverManager.getConnection(
-                "jdbc:mysql://localhost:3306/" + database, username, password
+            Connection conn;
+            conn = DriverManager.getConnection(
+            "jdbc:mysql://localhost:3306/" + database,username,password
             );
             if (conn != null) {
                 System.out.println("Connection successful!");
@@ -53,10 +42,10 @@ public class mysqlconnection implements Db{
         try {
             if (conn != null && !conn.isClosed()) {
                 conn.close();
-                System.out.println("Connection closed successfully.");
+                System.out.print("Connection closed successfully");
             }
         } catch (SQLException e) {
-            System.out.println("Error closing connection: " + e.getMessage());
+            System.out.print(e);
         }
     }
 
@@ -66,7 +55,7 @@ public class mysqlconnection implements Db{
             Statement stmt = conn.createStatement();
             return stmt.executeQuery(query);
         } catch (SQLException e) {
-            System.out.println("Error running query: " + e.getMessage());
+            System.out.print(e);
             return null;
         }
     }
@@ -77,7 +66,7 @@ public class mysqlconnection implements Db{
             Statement stmt = conn.createStatement();
             return stmt.executeUpdate(query);
         } catch (SQLException e) {
-            System.out.println("Error executing update: " + e.getMessage());
+            System.out.print(e);
             return -1;
         }
     }
@@ -89,5 +78,4 @@ public class mysqlconnection implements Db{
     public void closeconnection(Connection conn) {
         closeConnection(conn);
     }
-
 }
