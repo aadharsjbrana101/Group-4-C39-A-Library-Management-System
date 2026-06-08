@@ -115,7 +115,7 @@ public class BorrowDao {
         }
     }
 
-    // Sprint 2: Return updates and query functions
+    // Return Book (Updates borrow record, increments book quantity, triggers fine if overdue)
     public boolean returnBook(int borrowId) throws SQLException {
         Connection conn = mysql.openconnection();
         if (conn == null) {
@@ -206,7 +206,7 @@ public class BorrowDao {
         }
     }
 
-    // Sprint 3: Renewal date updates and query handling
+    // Renew Book
     public boolean renewBook(int borrowId) throws SQLException {
         Connection conn = mysql.openconnection();
         if (conn == null) {
@@ -264,7 +264,7 @@ public class BorrowDao {
         return getBorrowsByQuery("SELECT * FROM borrows WHERE user_id = ? AND status = 'returned' ORDER BY return_date DESC", userId);
     }
 
-    // Sprint 4: Fetch history queries and logs by User ID
+    // Get All Borrow History for a User
     public List<Borrow> getUserBorrowHistory(int userId) throws SQLException {
         return getBorrowsByQuery("SELECT * FROM borrows WHERE user_id = ? ORDER BY borrow_date DESC", userId);
     }

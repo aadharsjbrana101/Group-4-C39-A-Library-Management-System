@@ -9,12 +9,12 @@ import dao.UserDao;
 // import dao.AdminLogDao;
 
     public static void main(String[] args) {
-        // Launch UserBooksView directly in isolation mode
+        // Launch UserPaymentsView directly in isolation mode
         java.awt.EventQueue.invokeLater(() -> {
-            Model.userdata mockUser = new Model.userdata(1, "Rashmi (Books Isolation)", "rashmi@lms.com", "1234", "user", "active");
-            View.UserBooksView ubv = new View.UserBooksView(mockUser);
-            Controller.UserBooksController ubc = new Controller.UserBooksController(ubv, mockUser);
-            ubc.open();
+            Model.userdata mockUser = new Model.userdata(1, "Kushal (Payments Isolation)", "kushal@lms.com", "1234", "user", "active");
+            View.UserPaymentsView upv = new View.UserPaymentsView(mockUser);
+            Controller.UserPaymentsController upc = new Controller.UserPaymentsController(upv, mockUser);
+            upc.open();
         });
     }
 }

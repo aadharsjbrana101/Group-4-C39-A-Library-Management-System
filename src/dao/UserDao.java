@@ -6,9 +6,6 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Database access object (DAO) for managing users table queries.
- */
 public class UserDao {
     private final mysqlconnection mysql = new mysqlconnection();
 
