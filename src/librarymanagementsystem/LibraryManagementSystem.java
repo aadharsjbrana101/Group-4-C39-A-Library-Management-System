@@ -9,24 +9,12 @@ import dao.UserDao;
 // import dao.AdminLogDao;
 
     public static void main(String[] args) {
-        // Set beautiful Swing Look and Feel
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (Exception ex) {
-            java.util.logging.Logger.getLogger(LibraryManagementSystem.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-
-        // Launch CatalogView directly in isolation mode
+        // Launch UserBooksView directly in isolation mode
         java.awt.EventQueue.invokeLater(() -> {
-            View.CatalogView cv = new View.CatalogView();
-            Model.userdata testUser = new Model.userdata("Aman (Catalog Isolation)", "aman@lms.com", "user");
-            Controller.CatalogController cc = new Controller.CatalogController(cv, testUser);
-            cc.open();
+            Model.userdata mockUser = new Model.userdata(1, "Rashmi (Books Isolation)", "rashmi@lms.com", "1234", "user", "active");
+            View.UserBooksView ubv = new View.UserBooksView(mockUser);
+            Controller.UserBooksController ubc = new Controller.UserBooksController(ubv, mockUser);
+            ubc.open();
         });
     }
 }

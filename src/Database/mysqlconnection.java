@@ -16,13 +16,13 @@ public class mysqlconnection implements Db{
 
     @Override
     public Connection openConnection() {
-        try {
-            String username = "root";
-            String password = "Aman@107";
+               try{
+            String username = "newuser";
+            String password = "1234";
             String database = "lms";
             Connection conn;
             conn = DriverManager.getConnection(
-            "jdbc:mysql://localhost:3306/" + database,username,password
+           "jdbc:mysql://127.0.0.1:3306/" + database,username,password
             );
             if (conn != null) {
                 System.out.println("Connection successful!");
@@ -39,35 +39,36 @@ public class mysqlconnection implements Db{
 
     @Override
     public void closeConnection(Connection conn) {
-        try {
-            if (conn != null && !conn.isClosed()) {
-                conn.close();
-                System.out.print("Connection closed successfully");
-            }
-        } catch (SQLException e) {
-            System.out.print(e);
+        try{
+            if(conn !=null && !conn.isClosed());
+            conn.close();
+            System.out.println("connection is closed");  
+        }catch(SQLException e){
+            System.out.println(e);
         }
     }
 
     @Override
     public ResultSet runQuery(Connection conn, String query) {
-        try {
-            Statement stmt = conn.createStatement();
-            return stmt.executeQuery(query);
-        } catch (SQLException e) {
-            System.out.print(e);
-            return null;
+        try{
+            Statement stmp= conn.createStatement();
+            ResultSet result=stmp.executeQuery(query);
+            return result;
+        }catch(SQLException e){
+            System.out.println(e);
+        return null;
         }
     }
 
     @Override
     public int executeUpdate(Connection conn, String query) {
-        try {
-            Statement stmt = conn.createStatement();
-            return stmt.executeUpdate(query);
-        } catch (SQLException e) {
-            System.out.print(e);
-            return -1;
+     try{
+             Statement stmp= conn.createStatement();
+            int result=stmp.executeUpdate(query);
+            return result;
+        }catch(SQLException e){
+            System.out.println(e);
+        return -1;
         }
     }
 
