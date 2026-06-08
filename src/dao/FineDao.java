@@ -98,7 +98,7 @@ public class FineDao {
         }
     }
 
-    // Sprint 2: Fine status updates and transactions
+    // Pay Fine
     public boolean payFine(int fineId) throws SQLException {
         Connection conn = mysql.openconnection();
         if (conn == null) {
@@ -113,7 +113,7 @@ public class FineDao {
         }
     }
 
-    // Sprint 3: Fines query by user id
+    // Get unpaid fines count for user
     public int getUnpaidFinesCountForUser(int userId) throws SQLException {
         Connection conn = mysql.openconnection();
         if (conn == null) {
@@ -191,7 +191,7 @@ public class FineDao {
         return 0.0;
     }
 
-    // Sprint 4: Outstanding overdue accounts calculations
+    // Get total outstanding fines (for Admin dashboard stats)
     public double getTotalOutstandingFines() throws SQLException {
         Connection conn = mysql.openconnection();
         if (conn == null) {
