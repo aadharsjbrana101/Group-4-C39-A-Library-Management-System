@@ -1,30 +1,61 @@
 package View;
 
 import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.RenderingHints;
 import java.net.URL;
 import javax.swing.BorderFactory;
+import javax.swing.ButtonModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.plaf.basic.BasicButtonUI;
 
 public class ViewUtils {
 
-    public static void setupMenuHoverEffects(JButton btn) {
-        btn.addMouseListener(new java.awt.event.MouseAdapter() {
-            @Override
-            public void mouseEntered(java.awt.event.MouseEvent e) {
-                btn.setContentAreaFilled(true);
-                btn.setBackground(new Color(255, 255, 255, 20));
+    public static class TranslucentButtonUI extends BasicButtonUI {
+        private final Color hoverColor = new Color(255, 255, 255, 20);
+        private final Color activeColor = new Color(255, 255, 255, 35);
+        private final boolean isActive;
+
+        public TranslucentButtonUI(boolean isActive) {
+            this.isActive = isActive;
+        }
+
+        @Override
+        public void installUI(JComponent c) {
+            super.installUI(c);
+            c.setOpaque(false);
+            JButton b = (JButton) c;
+            b.setContentAreaFilled(false);
+            b.setFocusPainted(false);
+            b.setRolloverEnabled(true);
+        }
+
+        @Override
+        public void paint(Graphics g, JComponent c) {
+            JButton b = (JButton) c;
+            ButtonModel model = b.getModel();
+            Graphics2D g2d = (Graphics2D) g.create();
+            g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+            
+            if (isActive) {
+                g2d.setColor(activeColor);
+                g2d.fillRect(0, 0, b.getWidth(), b.getHeight());
+            } else if (model.isRollover()) {
+                g2d.setColor(hoverColor);
+                g2d.fillRect(0, 0, b.getWidth(), b.getHeight());
             }
-            @Override
-            public void mouseExited(java.awt.event.MouseEvent e) {
-                btn.setContentAreaFilled(false);
-            }
-        });
+            
+            g2d.dispose();
+            super.paint(g, c);
+        }
     }
 
     public static void scaleBackground(JLabel bgLabel, int w, int h) {
@@ -55,27 +86,23 @@ public class ViewUtils {
         if (menuButtons != null) {
             for (JButton btn : menuButtons) {
                 if (btn != null) {
-                    if (btn == activeBtn) {
+                    boolean isActive = (btn == activeBtn);
+                    btn.setUI(new TranslucentButtonUI(isActive));
+                    if (isActive) {
                         btn.setBorder(BorderFactory.createCompoundBorder(
                             BorderFactory.createLineBorder(new Color(255, 234, 0), 2),
                             new EmptyBorder(10, 13, 10, 13)
                         ));
-                        btn.setBackground(new Color(255, 255, 255, 20));
-                        btn.setContentAreaFilled(true);
-                        btn.setOpaque(true);
                     } else {
-                        btn.setContentAreaFilled(false);
-                        btn.setOpaque(false);
-                        setupMenuHoverEffects(btn);
+                        btn.setBorder(new EmptyBorder(12, 15, 12, 15));
                     }
                 }
             }
         }
 
         if (btnLogout != null) {
-            btnLogout.setContentAreaFilled(false);
-            btnLogout.setOpaque(false);
-            setupMenuHoverEffects(btnLogout);
+            btnLogout.setUI(new TranslucentButtonUI(false));
+            btnLogout.setBorder(new EmptyBorder(12, 15, 12, 15));
         }
     }
 
