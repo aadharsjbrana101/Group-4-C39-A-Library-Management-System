@@ -1,23 +1,27 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Main.java to edit this template
- */
 package librarymanagementsystem;
 
-import Model.userdata;
-import View.AdminDashboard;
-import Controller.AdminDashboardController;
+import Controller.LoginController;
+import View.UserLogin;
+import dao.UserDao;
+import dao.BookDao;
+import dao.BorrowDao;
+import dao.FineDao;
+import dao.AdminLogDao;
 
 public class LibraryManagementSystem {
-
-    /**
-     * @param args the command line arguments
-     */
     public static void main(String[] args) {
-        userdata mockUser = new userdata(1, "Ronish (Dashboard Isolation)", "ronish@lms.com", "1234", "admin", "active");
-        AdminDashboard view = new AdminDashboard(mockUser);
-        AdminDashboardController controller = new AdminDashboardController(view, mockUser);
-        controller.open();
+        // Initialize the database tables and schema modifications at startup
+        System.out.println("Initializing database schemas...");
+        new UserDao();
+        new BookDao();
+        new BorrowDao();
+        new FineDao();
+        new AdminLogDao();
+        System.out.println("Database initialization completed.");
+
+        // Start the application GUI
+        UserLogin login = new UserLogin();
+        LoginController lc = new LoginController(login);
+        lc.open();
     }
-    
 }
